@@ -1,0 +1,26 @@
+{
+  "id": "4d94b4e1-c1b4-402d-952a-e1bc6d1fc64b",
+  "name": "Alan-Sandbox-Project-01",
+  "publisher": "Default publisher",
+  "version": "1.0.0.0",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "18.0.0.0",
+  "idRanges": [
+    {
+      "from": 50350,
+      "to": 50399
+    }
+  ],
+  "contextSensitiveHelpUrl": "https://Alan-Sandbox-Project-01.com/help/",
+  "showMyCode": true,
+  "runtime": "7.0"
+}
