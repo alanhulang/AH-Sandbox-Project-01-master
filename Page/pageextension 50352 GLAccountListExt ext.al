@@ -6,7 +6,7 @@ pageextension 50352 GLAccountListExt extends "G/L Account List"
         {
             field("CN Name"; Rec."CN Name")
             {
-                Caption = 'CN Name';
+                Caption = 'CNName';
                 ApplicationArea = All;
             }
         }

@@ -2,9 +2,10 @@ codeunit 50350 "Find the right way"
 {
     trigger OnRun()
     begin
-
+        Test();
     end;
 
+    [TryFunction]
     procedure Test()
     var
         customer: Record Customer;
