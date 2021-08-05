@@ -1,16 +1,16 @@
 {
-    "users":[
-        {
-            "id":1,
-            "name":"James"            
-        },
-        {
-            "id":2,
-            "name":"Mary"            
-        },
-        {
-            "id":3,
-            "name":"Addison"            
-        }
-    ]    
+  "users": [
+    {
+      "id": 1,
+      "name": "James"
+    },
+    {
+      "id": 2,
+      "name": "Mary"
+    },
+    {
+      "name": "BBB",
+      "id": 3
+    }
+  ]
 }
