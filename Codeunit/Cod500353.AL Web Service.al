@@ -5,6 +5,7 @@ codeunit 50353 "AL Web Service"
         Parameters: XmlDocument;
         Result: XmlDocument;
         Address: XmlElement;
+        AVR: XmlElement;
     begin
         Parameters := XmlDocument.Create();
         Address := XmlElement.Create('Address');
