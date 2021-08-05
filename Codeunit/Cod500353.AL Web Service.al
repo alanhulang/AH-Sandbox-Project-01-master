@@ -1,5 +1,32 @@
 codeunit 50353 "AL Web Service"
 {
+    procedure VerifyCustomerAddress(var Customer: Record Customer)
+    var
+        Parameters: XmlDocument;
+        Result: XmlDocument;
+        Address: XmlElement;
+    begin
+        Parameters := XmlDocument.Create();
+        Address := XmlElement.Create('Address');
+        Address.Attributes().Set('ID', '0');
+        Address.Add(AddField('FirmName', Customer.Name));
+        Address.Add(AddField('Address1', Customer.Address));
+        Address.Add(AddField('Address2', Customer."Address 2"));
+        Address.Add(AddField('City', Customer.City));
+
+
+        CallWebService('USPS', 'Verify', Parameters);
+    end;
+
+    local procedure AddField(Name: Text; Value: Text): XmlElement
+    var
+        e: XmlElement;
+    begin
+        e := XmlElement.Create(Name);
+        e.Add(Value);
+        exit(e);
+    end;
+
     local procedure CallWebService(APICode: Code[20]; API: Text; XMLin: XmlDocument): XmlDocument
     var
         Setup: Record "API Setup";
