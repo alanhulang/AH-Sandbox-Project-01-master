@@ -1,3 +1,6 @@
+/// <summary>
+/// Codeunit AL Web Service (ID 50353).
+/// </summary>
 codeunit 50353 "AL Web Service"
 {
     procedure VerifyCustomerAddress(var Customer: Record Customer)
