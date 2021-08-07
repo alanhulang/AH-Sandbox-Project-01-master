@@ -1,7 +1,7 @@
 {
   "id": "4d94b4e1-c1b4-402d-952a-e1bc6d1fc64b",
   "name": "Alan-Sandbox-Project-01",
-  "publisher": "Default publisher",
+  "publisher": "Alan of FL erp",
   "version": "1.0.0.0",
   "brief": "",
   "description": "",
@@ -10,7 +10,20 @@
   "help": "",
   "url": "",
   "logo": "",
-  "dependencies": [],
+  "dependencies": [
+    {
+      "id": "63ca2fa4-4f03-4f2b-a480-172fef340d3f",
+      "publisher": "Microsoft",
+      "name": "System Application",
+      "version": "16.0.0.0"
+    },
+    {
+      "id": "437dbf0e-84ff-417a-965d-ed2bb9650972",
+      "publisher": "Microsoft",
+      "name": "Base Application",
+      "version": "16.0.0.0"
+    }
+  ],
   "screenshots": [],
   "platform": "1.0.0.0",
   "application": "18.0.0.0",
@@ -22,5 +35,7 @@
   ],
   "contextSensitiveHelpUrl": "https://Alan-Sandbox-Project-01.com/help/",
   "showMyCode": true,
+  "target": "Cloud",
   "runtime": "7.0"
+  
 }

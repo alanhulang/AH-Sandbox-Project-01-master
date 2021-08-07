@@ -25,14 +25,19 @@ table 50350 "API Setup"
             Caption = 'API User Pwd';
             DataClassification = ToBeClassified;
         }
-        field(5; "API User Secret"; Text[250])
+        field(5; "API User Key"; Text[250])
         {
-            Caption = 'API User Secret';
+            Caption = 'API Key';
             DataClassification = ToBeClassified;
         }
-        field(6; "API User Token"; Text[250])
+        field(6; "API User Secret"; Text[250])
         {
-            Caption = 'API User Token';
+            Caption = 'API Secret';
+            DataClassification = ToBeClassified;
+        }
+        field(7; "API User Token"; Text[250])
+        {
+            Caption = 'API Token';
             DataClassification = ToBeClassified;
         }
     }
