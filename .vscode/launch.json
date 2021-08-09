@@ -8,7 +8,7 @@
             "environmentType": "Sandbox",
             "environmentName": "FL-Sandbox-20210427-RKM",
             "tenant": "e4c5e616-c8d8-4b98-a14f-213a20532644",
-            "startupObjectId": 50353,
+            "startupObjectId": 50351,
             "startupObjectType": "Page",
             "breakOnError": true,
             "launchBrowser": true,

@@ -7,7 +7,7 @@ page 50351 "Intger Page"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = Integer;
-    SourceTableView = where(Number = const(1));//(Number = filter(-5 .. 5));
+    SourceTableView = where(Number = filter(1 ..));//(Number = filter(-5 .. 5));
     layout
     {
         area(Content)
@@ -15,53 +15,86 @@ page 50351 "Intger Page"
             repeater("rpt")
             {
 
-                field("Version"; callapi.ResponseFromSF('version'))
+                field("ID"; id)
                 {
-                    Caption = 'No.';
+                    Caption = 'ID';
+                    ApplicationArea = All;
+                }
+                field("Name"; name)
+                {
+                    Caption = 'Name';
+                    ApplicationArea = All;
+                }
+                field("Contact No. (NAV)"; contactNo)
+                {
+                    Caption = 'Contact No.';
                     ApplicationArea = All;
                 }
             }
         }
     }
-    local procedure GetValue(i: Integer): Text
-    begin
-        if dict.ContainsKey(i) then
-            exit(Dict.Get(i));
-    end;
+    actions
+    {
+        area("Processing")
+        {
+            action("Test SFDC")
+            {
+                ApplicationArea = All;
+
+                trigger OnAction()
+
+                begin
+                    SFDCManagement.GetAccountFromSFDC('Bauerfeind AG', jObj);
+                    jObj.SelectToken('records', jToken);
+                    jArray := jtoken.AsArray();
+                    objCount := jArray.Count;
+                    Rec.SetRange(Number, 1, objCount);
+                end;
+            }
+        }
+    }
 
     /// <summary>
     /// OnOpenPage
     /// </summary>
     trigger OnOpenPage()
     begin
-        Dict.Add(-1, 'Dominic');
-        Dict.Add(2, 'Ricky');
-        Dict.Add(3, 'Doris');
-        Dict.Add(4, 'Mango');
-        Dict.Add(5, 'Alan');
-        Dict.Add(6, 'Nicklaus');
+        rec.SETRANGE(Number, 1, 1);
     end;
 
     trigger OnAfterGetRecord()
 
     begin
-        jTokenTxt := '';
-        // UserName := '';
-        // if dict.ContainsKey(rec.Number) then
-        //     UserName := (Dict.Get(rec.Number))
-        // else
-        //     UserName := 'can not find the user for key ' + format(rec.Number);
-        //jArray := callapi.ResponseFromSF('version');
-        //jArray.Get(0, jToken);
-        //jTokenTxt := jToken.AsValue().AsText();
+        if jArray.Count > 0 then begin
+            Clear(jtoken);
+            jArray.Get(Rec.Number - 1, jtoken);
+            jObj := jtoken.AsObject();
+
+            jObj.Get('Id', jtoken);
+            id := jtoken.AsValue().AsText();
+
+            jObj.Get('Name', jtoken);
+            name := jtoken.AsValue().AsText();
+
+            jObj.Get('Contact_No_NAV__c', jtoken);
+            if not jtoken.AsValue().IsNull then
+                contactNo := jtoken.AsValue().AsText();
+        end;
 
     end;
 
     var
-        Dict: Dictionary of [Integer, Text];
-        UserName: Text;
-        callapi: Codeunit 50351;
-        jArray: JsonArray;
+        SFDCManagement: Codeunit SFDC;
+        jObj: JsonObject;
         jToken: JsonToken;
-        jTokenTxt: Text;
+        tokenKey: Text;
+        jArray: JsonArray;
+        tokenValue: Text;
+        i: Integer;
+        id: Text;
+        name: Text;
+        contactNo: Text;
+        dict: Dictionary of [Text, Text];
+
+        objCount: Integer;
 }

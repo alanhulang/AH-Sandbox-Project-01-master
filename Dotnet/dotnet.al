@@ -69,9 +69,12 @@ controladdin DotNetTest
     procedure Calc(a: Integer; b: Integer);
     procedure Test1();
     procedure Ping();
+    procedure GetSFDCToken();
     event ControlReady();
     event Result(d: Integer);
     event PingResult(t: Text);
     event Test1Result(t: Text);
+    event SFDCTokenResult(t: Text);
+
 
 }

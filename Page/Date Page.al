@@ -30,8 +30,28 @@ page 50350 "Date Virtual"
                     ApplicationArea = All;
                 }
             }
+            usercontrol(TestDemo; DotNetTest)
+            {
+                ApplicationArea = all;
+                trigger ControlReady()
+                begin
+                    Ready := true;
+                end;
+
+                trigger Result(d: Integer)
+                begin
+                    Message('The result is %1', d);
+                end;
+
+                trigger SFDCTokenResult(t: Text)
+                begin
+                    Message(t);
+                end;
+            }
         }
+
     }
+
     /// <summary>
     /// OnOpenPage
     /// </summary>
@@ -41,6 +61,11 @@ page 50350 "Date Virtual"
     end;
 
     var
+        Ready: Boolean;
         client: HttpClient;
+        content: HttpContent;
+        dictionaryForUrl: Dictionary of [Text, Text];
+
+
 
 }

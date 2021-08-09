@@ -84,13 +84,24 @@ page 50352 "External API Setup"
 
                 trigger OnAction()
                 begin
-                    if NOT SFDCManagement.CallWebService() then
-                        Message(GetLastErrorText());
+                    SFDCManagement.GetAccountFromSFDC('Bauerfeind AG', jObj);
+                    for i := 0 to jObj.Keys.Count - 1 do begin
+                        jObj.Keys.Get(i, tokenKey);
+                        jObj.Get(tokenKey, jToken);
+                        tokenValue := jToken.AsValue().AsText();
+                        dict.Add(tokenKey, tokenValue);
+                    end;
                 end;
             }
         }
     }
     var
         SFDCManagement: Codeunit SFDC;
+        jObj: JsonObject;
+        jToken: JsonToken;
+        tokenKey: Text;
+        tokenValue: Text;
+        i: Integer;
+        dict: Dictionary of [Text, Text];
 
 }

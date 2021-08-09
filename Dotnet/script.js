@@ -24,3 +24,12 @@ function Test1()
         Microsoft.Dynamics.NAV.InvokeExtensibilityMethod('Test1Result',[data]);
       });
 }
+function GetSFDCToken()
+{
+    console.log('GetSFDCToken start');
+    DotNet.invokeMethodAsync('BlazorDemo.Client', 'GetSFDCToken')
+      .then(data => {
+        console.log('Test GetSFDCToken function');
+        Microsoft.Dynamics.NAV.InvokeExtensibilityMethod('SFDCTokenResult',[data]);
+      });
+}

@@ -20,14 +20,9 @@ page 50353 "Test DotNet in AL"
                     Message('The result is %1', d);
                 end;
 
-                trigger PingResult(t: Text)
+                trigger SFDCTokenResult(t: Text)
                 begin
                     Message(t);
-                end;
-
-                trigger Test1Result(t1: Text)
-                begin
-                    Message(t1);
                 end;
             }
         }
@@ -36,34 +31,23 @@ page 50353 "Test DotNet in AL"
     {
         area(Processing)
         {
-            action(TestAction1)
-            {
-                Caption = 'Ping';
-                InFooterBar = true;
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    if Ready then
-                        CurrPage.TestDemo.Ping()
-                    else
-                        Message('Dotnet still loading....');
-                end;
-            }
             action(TestAction2)
             {
-                Caption = 'Test from My dll';
+                Caption = 'Test Connect to SFDC';
                 InFooterBar = true;
                 ApplicationArea = All;
                 trigger OnAction()
                 begin
                     if Ready then
-                        CurrPage.TestDemo.Test1()
+                        CurrPage.TestDemo.GetSFDCToken()
                     else
                         Message('Dotnet still loading....');
                 end;
             }
+
         }
     }
+
     var
         Ready: Boolean;
 }
