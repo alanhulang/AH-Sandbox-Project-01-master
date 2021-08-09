@@ -29,10 +29,6 @@ codeunit 50352 SFDC
         QueryTxt := '?q=SELECT id, name, Contact_No_NAV__c from Account ORDER BY Name asc LIMIT 200';
         QueryTxt := QueryTxt.Replace(' ', '+');
         QueryTxt := instanceUrl + apiEndPoint + QueryTxt;
-        //content.GetHeaders(Headers);
-        //Headers.Clear();
-        //Headers.Add('content-type', 'application/text/xml');
-        //request.Content := content;
         request.GetHeaders(Headers);
         Headers.Clear();
         Headers.Add('Authorization', 'Bearer ' + sfdcToken);
@@ -47,6 +43,48 @@ codeunit 50352 SFDC
             message(txtOut);
             if JObj.ReadFrom(txtOut) then begin
                 jsonObj := JObj;
+            end;
+        end;
+        //end;
+    end;
+
+    procedure GetAccountFromSFDCwXML(var xmlObj: XmlDocument)
+    var
+        Setup: Record "API Setup";
+        TypeHelper: Codeunit "Type Helper";
+        Client: HttpClient;
+        content: HttpContent;
+        Request: HttpRequestMessage;
+        Response: HttpResponseMessage;
+        Headers: HttpHeaders;
+        QueryTxt: Text;
+        XMLtxt: Text;
+        txtOut: Text;
+        XMLOut: XmlDocument;
+        APICode: Code[20];
+        dictionaryForUrl: Dictionary of [Text, Text];
+        JObj: JsonObject;
+        jToken: JsonToken;
+        ApiEndPoint: Text;
+    begin
+        CallWebService('SFDC');
+        ApiEndPoint := '/services/data/v52.0/query/';
+        QueryTxt := '?q=SELECT id, name, Contact_No_NAV__c from Account where Name!=null ORDER BY Name asc LIMIT 200';
+        QueryTxt := QueryTxt.Replace(' ', '+');
+        QueryTxt := instanceUrl + apiEndPoint + QueryTxt;
+        request.GetHeaders(Headers);
+        Headers.Clear();
+        Headers.Add('Authorization', 'Bearer ' + sfdcToken);
+        Headers.Add('Accept', 'application/xml');
+
+        request.SetRequestUri(QueryTxt);
+        request.Method := 'GET';
+
+        Client.Send(Request, Response);
+        if Response.HttpStatusCode = 200 then begin
+            Response.Content().ReadAs(txtOut);
+            if XmlDocument.ReadFrom(txtOut, xmlObj) then begin
+
             end;
         end;
         //end;
