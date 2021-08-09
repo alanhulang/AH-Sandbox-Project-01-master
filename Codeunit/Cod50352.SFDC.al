@@ -29,13 +29,14 @@ codeunit 50352 SFDC
         QueryTxt := '?q=SELECT id, name, Contact_No_NAV__c from Account ORDER BY Name asc LIMIT 200';
         QueryTxt := QueryTxt.Replace(' ', '+');
         QueryTxt := instanceUrl + apiEndPoint + QueryTxt;
-        content.GetHeaders(Headers);
-        Headers.Clear();
-        Headers.Add('content-type', 'application/json');
+        //content.GetHeaders(Headers);
+        //Headers.Clear();
+        //Headers.Add('content-type', 'application/text/xml');
         //request.Content := content;
         request.GetHeaders(Headers);
         Headers.Clear();
         Headers.Add('Authorization', 'Bearer ' + sfdcToken);
+        //Headers.Add('Accept', 'application/xml');
 
         request.SetRequestUri(QueryTxt);
         request.Method := 'GET';
