@@ -80,12 +80,11 @@ codeunit 50352 SFDC
     begin
         if not Setup.Get(APICode) then
             Error('%1 setup is needed, please enter URL and UserID', Setup."API Code");
-        ContentString := '?grant_type=password';//Setup."API Url";//'?API=' + Setup."API Url" + '&XML=' + XMLtxt
+        ContentString := '?grant_type=password';
         if Setup."API User Key" <> '' then ContentString += '&client_id=' + Setup."API User Key";
         if Setup."API User Secret" <> '' then ContentString += '&client_secret=' + Setup."API User Secret";
         if Setup."API User ID" <> '' then ContentString += '&username=' + Setup."API User ID";
         if Setup."API User Pwd" <> '' then ContentString += '&password=' + Setup."API User Pwd";
-
         request.Method := 'POST';//Set HttpRequest Method
         request.GetHeaders(Headers);//Set HttpRequest Headers
         Headers.Clear();
