@@ -7,6 +7,7 @@ page 50351 "Intger Page"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = Integer;
+    Editable = false;
     SourceTableView = where(Number = filter(1 ..));//(Number = filter(-5 .. 5));
     layout
     {
@@ -14,7 +15,6 @@ page 50351 "Intger Page"
         {
             repeater("rpt")
             {
-
                 field("Account ID"; id)
                 {
                     Caption = 'Account ID';
