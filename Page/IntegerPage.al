@@ -37,7 +37,7 @@ page 50351 "Intger Page"
     {
         area("Processing")
         {
-            action("call rest")
+            action("salesforce REST demo")
             {
                 ApplicationArea = All;
                 trigger OnAction()
