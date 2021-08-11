@@ -13,6 +13,7 @@ page 50352 "External API Setup"
 
         area(content)
         {
+
             repeater(General)
             {
                 field("API Code"; Rec."API Code")
@@ -84,7 +85,7 @@ page 50352 "External API Setup"
 
                 trigger OnAction()
                 begin
-                    SFDCManagement.GetAccountFromSFDC('Bauerfeind AG', jObj);
+                    jObj.ReadFrom(SFDCManagement.GetAccountFromSFDC(0));
                     for i := 0 to jObj.Keys.Count - 1 do begin
                         jObj.Keys.Get(i, tokenKey);
                         jObj.Get(tokenKey, jToken);

@@ -15,19 +15,19 @@ page 50351 "Intger Page"
             repeater("rpt")
             {
 
-                field("ID"; id)
+                field("Account ID"; id)
                 {
-                    Caption = 'ID';
+                    Caption = 'Account ID';
                     ApplicationArea = All;
                 }
-                field("Name"; name)
+                field("Account Name"; name)
                 {
-                    Caption = 'Name';
+                    Caption = 'Account Name';
                     ApplicationArea = All;
                 }
                 field("Contact No. (NAV)"; contactNo)
                 {
-                    Caption = 'Contact No.';
+                    Caption = 'Contact No. (NAV)';
                     ApplicationArea = All;
                 }
             }
@@ -37,21 +37,32 @@ page 50351 "Intger Page"
     {
         area("Processing")
         {
-            action("Test SFDC")
+            action("call rest")
             {
                 ApplicationArea = All;
-
                 trigger OnAction()
                 begin
-                    // SFDCManagement.GetAccountFromSFDC('Bauerfeind AG', jObj);
-                    // jObj.SelectToken('records', jToken);
-                    // jArray := jtoken.AsArray();
-                    // objCount := jArray.Count;
-                    // Rec.SetRange(Number, 1, objCount);
-                    SFDCManagement.GetAccountFromSFDCwXML(xmlDoc);
-                    if xmlDoc.SelectNodes('//QueryResult/records', xmlNotes) then
-                        objCount := xmlNotes.Count;
-                    Rec.SetRange(Number, 1, objCount);
+                    Clear(jArray);
+                    Clear(xmlNotes);
+                    txtFormat := StrMenu('json format,xml format', 1, 'select format');
+                    responseTxt := SFDCManagement.GetAccountFromSFDC(txtFormat);
+                    case txtFormat of
+                        1:
+                            begin
+                                if not JObj.ReadFrom(responseTxt) then Error('can not convert the received txt to json');
+                                jObj.SelectToken('records', jToken);
+                                jArray := jtoken.AsArray();
+                                objCount := jArray.Count;
+                                Rec.SetRange(Number, 1, objCount);
+                            end;
+                        2:
+                            begin
+                                if not XmlDocument.ReadFrom(responseTxt, xmlDoc) then Error('can not convert the received txt to xml');
+                                if xmlDoc.SelectNodes('//QueryResult/records', xmlNotes) then
+                                    objCount := xmlNotes.Count;
+                                Rec.SetRange(Number, 1, objCount);
+                            end;
+                    end;
                 end;
             }
         }
@@ -62,7 +73,8 @@ page 50351 "Intger Page"
     /// </summary>
     trigger OnOpenPage()
     begin
-        rec.SETRANGE(Number, 0);
+        rec.SETRANGE(Number, 1);
+        txtFormat := 1;
     end;
 
     trigger OnAfterGetRecord()
@@ -75,30 +87,31 @@ page 50351 "Intger Page"
             Id := '';
             Name := '';
             contactNo := '';
-            if xmlNotes.Get(rec.Number - 1, xmlNodeTmp) then begin
+            if xmlNotes.Get(rec.Number, xmlNodeTmp) then begin
                 if xmlNodeTmp.SelectSingleNode('Id', l_xmlNode) then
-                    if l_xmlNode.IsXmlElement then Id := l_xmlNode.AsXmlElement.InnerText;
+                    if l_xmlNode.IsXmlElement then Id := 'xml-' + l_xmlNode.AsXmlElement.InnerText;
                 if xmlNodeTmp.SelectSingleNode('Name', l_xmlNode) then
                     if l_xmlNode.IsXmlElement then Name := l_xmlNode.AsXmlElement.InnerText;
                 if xmlNodeTmp.SelectSingleNode('Contact_No_NAV__c', l_xmlNode) then
                     if l_xmlNode.IsXmlElement then contactNo := l_xmlNode.AsXmlElement.InnerText;
-            end
+            end;
+
         end;
-        // if jArray.Count > 0 then begin
-        //     Clear(jtoken);
-        //     jArray.Get(Rec.Number - 1, jtoken);
-        //     jObj := jtoken.AsObject();
+        if jArray.Count > 0 then begin
+            Clear(jtoken);
+            jArray.Get(Rec.Number - 1, jtoken);
+            jObj := jtoken.AsObject();
 
-        //     jObj.Get('Id', jtoken);
-        //     id := jtoken.AsValue().AsText();
+            jObj.Get('Id', jtoken);
+            id := 'json-' + jtoken.AsValue().AsText();
 
-        //     jObj.Get('Name', jtoken);
-        //     name := jtoken.AsValue().AsText();
+            jObj.Get('Name', jtoken);
+            name := jtoken.AsValue().AsText();
 
-        //     jObj.Get('Contact_No_NAV__c', jtoken);
-        //     if not jtoken.AsValue().IsNull then
-        //         contactNo := jtoken.AsValue().AsText();
-        // end;
+            jObj.Get('Contact_No_NAV__c', jtoken);
+            if not jtoken.AsValue().IsNull then
+                contactNo := jtoken.AsValue().AsText();
+        end;
 
     end;
 
@@ -117,6 +130,7 @@ page 50351 "Intger Page"
         name: Text;
         contactNo: Text;
         dict: Dictionary of [Text, Text];
-
         objCount: Integer;
+        txtFormat: Integer;
+        responseTxt: Text;
 }
