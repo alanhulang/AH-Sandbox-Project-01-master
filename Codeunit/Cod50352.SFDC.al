@@ -51,13 +51,6 @@ codeunit 50352 SFDC
         Client.Send(Request, Response);//Call Interface
         if Response.HttpStatusCode = 200 then begin
             Response.Content().ReadAs(txtOut);
-            case receivedFormat of
-                1:
-                    FormatTxt := 'json';
-                2:
-                    FormatTxt := 'xml';
-            end;
-            if not Confirm('response from salesforce as ' + FormatTxt + ' format:\' + txtOut, false) then exit;
             exit(txtOut);
         end;
         exit(txtOut);

@@ -48,6 +48,13 @@ page 50351 "Intger Page"
                     responseTxt := SFDCManagement.GetAccountFromSFDC(txtFormat);
                     case txtFormat of
                         1:
+                            FormatTxt := 'json';
+                        2:
+                            FormatTxt := 'xml';
+                    end;
+                    if not Confirm('response from salesforce as ' + FormatTxt + ' format:\' + responseTxt, false) then exit;
+                    case txtFormat of
+                        1:
                             begin
                                 if not JObj.ReadFrom(responseTxt) then Error('can not convert the received txt to json');
                                 jObj.SelectToken('records', jToken);
@@ -133,4 +140,5 @@ page 50351 "Intger Page"
         objCount: Integer;
         txtFormat: Integer;
         responseTxt: Text;
+        FormatTxt: Text;
 }
